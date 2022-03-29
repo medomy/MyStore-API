@@ -12,7 +12,7 @@ const port : number = 4500;
 const address : string = `http://localhost:${port}`;
 
 const corsOptions = {
-    origin: 'http://example.com',
+    origin: 'http://localhost:3000',
     optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
 }
 

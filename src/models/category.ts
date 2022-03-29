@@ -4,7 +4,7 @@ export type category = {
     id? : string | number,
     name : string,
     description : string,
-    photoUrl : string
+    photourl : string
 }
 
 export class CategoriesStore{
@@ -35,7 +35,7 @@ export class CategoriesStore{
         try{
             const sql = "INSERT INTO categories (name , description , photoUrl) VALUES($1,$2,$3) RETURNING *;"
             const connection = await client.connect();
-            const results = await connection.query(sql,[c.name , c.description , c.photoUrl]);
+            const results = await connection.query(sql,[c.name , c.description , c.photourl]);
             connection.release();
             return results.rows[0];
 
@@ -48,7 +48,7 @@ export class CategoriesStore{
         try{
             const sql = "UPDATE categories SET name=($1) , description=($2) , photoUrl=($3) WHERE id=($4) RETURNING *;"
             const connection = await client.connect();
-            const results = await connection.query(sql,[c.name,c.description,c.photoUrl, id]);
+            const results = await connection.query(sql,[c.name,c.description,c.photourl, id]);
             connection.release();
             return results.rows[0];
         }catch(err){

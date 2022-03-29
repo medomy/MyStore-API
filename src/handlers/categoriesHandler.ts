@@ -27,7 +27,7 @@ const create = async (req : express.Request , res : express.Response)=>{
     try{
         const category : category = {
             name : req.body.name ? req.body.name : "no name",
-            photoUrl : req.body.photoUrl ? req.body.photoUrl : "no photo",
+            photourl : req.body.photourl ? req.body.photourl : "no photo",
             description : req.body.description ?req.body.description : "no description",
         }
         const createdCategory = await store.create(category);
@@ -44,9 +44,8 @@ const update = async (req : express.Request , res : express.Response)=>{
         const myCategory = await store.show(req.params.id);
         const updateCategory: category ={
             name : req.body.name ? req.body.name : myCategory.name,
-            photoUrl : req.body.price ? req.body.price : myCategory.photoUrl,
+            photourl : req.body.photourl ? req.body.photourl : myCategory.photourl,
             description : req.body.description ?req.body.description : myCategory.description,
-            
         }
         const updatedCategory = await store.update(req.params.id , updateCategory);
         res.json(updatedCategory); 
