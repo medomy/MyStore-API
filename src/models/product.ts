@@ -6,8 +6,8 @@ export type product = {
     price : number,
     description : string,
     company : string,
-    categoryId : string | number,
-    photoSrc : string
+    categoryid : string | number,
+    photosrc : string
 }
 
 export class ProductsStore {
@@ -41,7 +41,7 @@ export class ProductsStore {
             const sql = "INSERT INTO products (title , price , description , company , categoryId , photoSrc) VALUES($1,$2,$3,$4,$5,$6) RETURNING *;"
             const connection = await client.connect();
             console.log("after connecting");
-            const results = await connection.query(sql,[p.title , p.price , p.description , p.company , p.categoryId , p.photoSrc]);
+            const results = await connection.query(sql,[p.title , p.price , p.description , p.company , p.categoryid , p.photosrc]);
             console.log("results");
             connection.release();
             console.log(results.rows);
@@ -57,7 +57,7 @@ export class ProductsStore {
         try{
             const sql = "UPDATE products SET title=($1) , price=($2) , description=($3) , company=($4) , categoryId=($5) , photoSrc=($6) WHERE id=($7) RETURNING *;"
             const connection = await client.connect();
-            const results = await connection.query(sql,[p.title , p.price , p.description , p.company , p.categoryId , p.photoSrc , id]);
+            const results = await connection.query(sql,[p.title , p.price , p.description , p.company , p.categoryid , p.photosrc , id]);
             connection.release();
             return results.rows[0];
         }catch(err){

@@ -29,9 +29,9 @@ const create = async (req : express.Request , res : express.Response)=>{
             title : req.body.title ? req.body.title : "no title",
             price : req.body.price ? req.body.price : 0,
             description : req.body.description ?req.body.description : "no description",
-            categoryId : req.body.categoryId ? req.body.categoryId : 1,
+            categoryid : req.body.categoryid ? req.body.categoryid : 1,
             company : req.body.company ? req.body.company : "no company",
-            photoSrc : req.body.photoSrc ? req.body.photoSrc : "no photo"
+            photosrc : req.body.photoSrc ? req.body.photoSrc : "no photo"
         }
         const createdProduct = await store.create(product);
         res.json(createdProduct);
@@ -49,9 +49,9 @@ const update = async (req : express.Request , res : express.Response)=>{
             title : req.body.title ? req.body.title : myProduct.title,
             price : req.body.price ? req.body.price : myProduct.price,
             description : req.body.description ?req.body.description : myProduct.description,
-            categoryId : req.body.categoryId ? req.body.categoryId : myProduct.categoryId,
+            categoryid : req.body.categoryid ? req.body.categoryid : myProduct.categoryid,
             company : req.body.company ? req.body.company : myProduct.company,
-            photoSrc : req.body.photoSrc ? req.body.photoSrc : myProduct.photoSrc
+            photosrc : req.body.photosrc ? req.body.photosrc : myProduct.photosrc
         }
         const updatedProduct = await store.update(req.params.id , updateProduct);
         res.json(updatedProduct); 

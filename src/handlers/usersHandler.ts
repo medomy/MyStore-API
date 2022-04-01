@@ -33,14 +33,14 @@ const show = async (req : express.Request , res : express.Response)=>{
 const create = async (req : express.Request , res : express.Response)=>{
     try{
         const sentUser : user= {
-            userName : req.body.userName,
+            username : req.body.username,
             first_name : req.body.first_name,
             last_name : req.body.last_name,
             password : req.body.password,
-            photoUrl : req.body.photoUrl ? req.body.photoUrl : "default src",
+            photourl : req.body.photourl ? req.body.photourl : "default src",
             email : req.body.email,
             country : req.body.country,
-            mobilePhone : req.body.mobilePhone
+            mobilephone : req.body.mobilephone
         };
         const createdUser = await store.create(sentUser);
         const token = jwt.sign({user : createdUser} , tokenSecret);
@@ -55,14 +55,14 @@ const update = async (req : express.Request , res : express.Response)=>{
     try{
         const user = await store.show(req.params.id);
         const sentUser : user= {
-            userName : req.body.userName ? req.body.userName : user.userName,
+            username : req.body.username ? req.body.username : user.username,
             first_name : req.body.first_name ? req.body.first_name : user.first_name,
             last_name : req.body.last_name ? req.body.last_name : user.last_name,
             password : req.body.password ? req.body.password : user.password,
-            photoUrl : req.body.photoUrl ? req.body.photoUrl : user.photoUrl,
+            photourl : req.body.photourl ? req.body.photourl : user.photourl,
             email : req.body.email ? req.body.email : user.email,
             country : req.body.country ? req.body.country : user.country,
-            mobilePhone : req.body.mobilePhone ? req.body.mobilePhone : user.mobilePhone
+            mobilephone : req.body.mobilephone ? req.body.mobilephone : user.mobilephone
         };
         const updatedUser = await store.update(req.params.id,sentUser);
         const token = jwt.sign({user : updatedUser} , tokenSecret);
@@ -106,7 +106,7 @@ const getAllCartItems = async (req: express.Request, res: express.Response) =>{
 
 const addToCart = async (req: express.Request, res: express.Response) =>{
     try{
-        const addtoCart = await store.addCartItem(req.body.quantity, req.params.id, req.body.productId);
+        const addtoCart = await store.addCartItem(req.body.quantity, req.params.id, req.body.productid);
         res.json(addtoCart);
     }catch(err){
         res.status(400);
@@ -115,7 +115,7 @@ const addToCart = async (req: express.Request, res: express.Response) =>{
 }
 const removeFromCart = async (req: express.Request, res: express.Response) =>{
     try{
-        const removedItem = await store.removeFromCart(req.params.id , req.body.productId);
+        const removedItem = await store.removeFromCart(req.params.id , req.body.productid);
         res.json(removedItem);
     }catch(err){
         res.status(400);

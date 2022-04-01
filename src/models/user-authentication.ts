@@ -8,19 +8,19 @@ const salt = Number(process.env.SALT_ROUNDS);
 
 export type user = {
     id?: string | number,
-    userName: string,
+    username: string,
     first_name: string,
     last_name: string,
     password: string,
     email: string,
     country: string,
-    mobilePhone: string | number,
-    photoUrl: string
+    mobilephone: string | number,
+    photourl: string
 }
 export type cartItem = {
     id?: string | number,
-    productId : number | string,
-    userId : string | number,
+    productid : number | string,
+    userid : string | number,
     quantity : number
 }
 
@@ -51,9 +51,9 @@ export class UserStore {
     async create(u: user): Promise<user> {
         try {
             const users = await this.index();
-            const users_userName = users.filter((user) => user.userName === u.userName);
+            const users_userName = users.filter((user) => user.username === u.username);
             if (users_userName.length) {
-                throw new Error(`username ${u.userName} alredy exists`)
+                throw new Error(`username ${u.username} alredy exists`)
             }
             else {
                 const sql = `INSERT INTO users (userName , first_name ,last_name, password_encryption, email ,country ,mobilePhone,photoUrl) VALUES($1, $2, $3, $4 , $5, $6 , $7 , $8 ) RETURNING *;`;
@@ -62,14 +62,14 @@ export class UserStore {
                     u.password + pepper,
                     salt
                 )
-                const result = await connection.query(sql, [u.userName, u.first_name, u.last_name, hash, u.email, u.country, u.mobilePhone, u.photoUrl]);
+                const result = await connection.query(sql, [u.username, u.first_name, u.last_name, hash, u.email, u.country, u.mobilephone, u.photourl]);
                 connection.release();
                 return result.rows[0];
 
             }
 
         } catch (err) {
-            throw new Error(`can not add user ${u.userName} , the error is ${err}`);
+            throw new Error(`can not add user ${u.username} , the error is ${err}`);
         }
     }
     async delete(id: string | number): Promise<user> {
@@ -93,7 +93,7 @@ export class UserStore {
                 u.password + pepper,
                 salt
             );
-            const result = await connection.query(sql, [u.userName, u.first_name, u.last_name, hash, u.email, u.country, u.mobilePhone, u.photoUrl, id]);
+            const result = await connection.query(sql, [u.username, u.first_name, u.last_name, hash, u.email, u.country, u.mobilephone, u.photourl, id]);
             connection.release();
             return result.rows[0];
         } catch (err) {
