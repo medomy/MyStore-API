@@ -22,8 +22,9 @@ const index = async (req : express.Request , res : express.Response)=>{
 const show = async (req : express.Request , res : express.Response)=>{
     try{
         const user = await store.show(req.params.id);
-        const token = jwt.sign({user : user} , tokenSecret);
-        res.json(token);
+        // const token = jwt.sign({user : user} , tokenSecret);
+        // res.json(token);
+        res.json(user);
     }catch(err){
         res.status(400);
         res.json(err);
@@ -37,7 +38,7 @@ const create = async (req : express.Request , res : express.Response)=>{
             first_name : req.body.first_name,
             last_name : req.body.last_name,
             password : req.body.password,
-            photourl : req.body.photourl ? req.body.photourl : "default src",
+            photourl : req.body.photourl ? req.body.photourl : "https://www.w3schools.com/howto/img_avatar.png",
             email : req.body.email,
             country : req.body.country,
             mobilephone : req.body.mobilephone
@@ -45,6 +46,7 @@ const create = async (req : express.Request , res : express.Response)=>{
         const createdUser = await store.create(sentUser);
         const token = jwt.sign({user : createdUser} , tokenSecret);
         res.json(token);
+        //res.json(createdUser);
     }catch(err){
         res.status(400);
         res.json(err);

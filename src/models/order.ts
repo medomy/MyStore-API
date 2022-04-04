@@ -4,12 +4,18 @@ export type productsQuantities = {
     productId : string | number,
     qty : number
 }
+export enum Status{
+    pending = "pending",
+    approved = "approved",
+    rejected = "rejected"
+}
 export type order = {
     id?: string | number,
     products_ids_qtys : Array<productsQuantities>,
-    userId : string | number,
+    userid : string | number,
     address : string,
-    totalPrice : number 
+    totalprice : number,
+    status?: Status
 }
 
 export class OrderStore {
@@ -40,10 +46,10 @@ export class OrderStore {
 
     async create(o:order) : Promise<order>{
         try{
-            const sql = "INSERT INTO orders (products_ids_qtys , userId , address , totalPrice) VALUES($1,$2,$3,$4) RETURNING *;"
+            const sql = "INSERT INTO orders (products_ids_qtys , userId , address , totalPrice , status) VALUES($1,$2,$3,$4,$5) RETURNING *;"
             const connection = await client.connect();
             console.log("after connecting");
-            const results = await connection.query(sql,[o.products_ids_qtys , o.userId , o.address , o.totalPrice]);
+            const results = await connection.query(sql,[o.products_ids_qtys , o.userid , o.address , o.totalprice , o.status]);
             console.log("results");
             connection.release();
             console.log(results.rows);
@@ -57,9 +63,9 @@ export class OrderStore {
     async update(id : string | number , o:order) : Promise<order>{
         try{
             //products_ids_qtys , userId , address , totalPrice
-            const sql = "UPDATE products SET products_ids_qtys=($1) , userId=($2) , address=($3) , totalPrice=($4) WHERE id=($5) RETURNING *;"
+            const sql = "UPDATE orders SET products_ids_qtys=($1) , userId=($2) , address=($3) , totalPrice=($4) , status=($5) WHERE id=($6) RETURNING *;"
             const connection = await client.connect();
-            const results = await connection.query(sql,[o.products_ids_qtys , o.userId , o.address , o.totalPrice, id]);
+            const results = await connection.query(sql,[o.products_ids_qtys , o.userid , o.address , o.totalprice, o.status, id]);
             connection.release();
             return results.rows[0];
         }catch(err){

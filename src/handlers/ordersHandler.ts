@@ -1,5 +1,5 @@
 import express from 'express';
-import { OrderStore , order } from '../models/order';
+import { OrderStore , order, Status } from '../models/order';
 
 const store = new OrderStore();
 
@@ -37,9 +37,10 @@ const create = async (req : express.Request , res : express.Response)=>{
     try{
         const sentOrder : order ={
             products_ids_qtys : req.body.products_ids_qtys,
-            userId : req.body.userId,
+            userid : req.body.userid,
             address : req.body.address,
-            totalPrice : req.body.totalPrice
+            totalprice : req.body.totalprice,
+            status : Status.pending
         } 
         const createdOrder = await store.create(sentOrder);
         res.json(createdOrder);
@@ -51,12 +52,17 @@ const create = async (req : express.Request , res : express.Response)=>{
 const update = async (req : express.Request , res : express.Response)=>{
     try{
         const originalOrder = await store.show(req.params.id);
+        //console.log("originalOrder",originalOrder);
         const updatedOrder : order={
             products_ids_qtys : req.body.products_ids_qtys ? req.body.products_ids_qtys : originalOrder.products_ids_qtys,
-            userId : req.body.userId ? req.body.userId : originalOrder.userId,
+            userid : req.body.userid ? req.body.userId : originalOrder.userid,
             address : req.body.address ? req.body.address : originalOrder.address,
-            totalPrice : req.body.totalPrice ? req.body.totalPrice : originalOrder.totalPrice
+            totalprice : req.body.totalprice ? req.body.totalprice : originalOrder.totalprice,
+            status : req.body.status ? req.body.status : originalOrder.status
         }
+        //console.log("updatedOrder",updatedOrder);
+        const updateOrder = await store.update(req.params.id ,updatedOrder );
+        res.json(updateOrder);
 
     }catch(err){
         res.status(400);
